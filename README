@@ -6,3 +6,7 @@ konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der
 
 baut die neuste Version von aqbanking als Container-Image
 
+* start-giro.sh
+
+baut das obige Image (falls nötig), erzeugt mittels aqbanking ein CSV und konvertiert es passend für den CSV-Importer
+
