@@ -1,0 +1,8 @@
+* csv-convert.py
+
+konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der DKB) in ein Format, welches erfahrungsgemäß die wenigsten Probleme beim Import in den CSV-Importer macht.
+
+* Dockerfile
+
+baut die neuste Version von aqbanking als Container-Image
+
