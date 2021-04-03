@@ -1,3 +1,4 @@
+
 * csv-convert.py
 
 konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der DKB) in ein Format, welches erfahrungsgemäß die wenigsten Probleme beim Import in den CSV-Importer macht.
@@ -12,6 +13,7 @@ erzeugt eine CSV mittels aqbanking
 
 * start-giro.sh
 
-baut das obige Image (falls nötig), erzeugt mittels aqbanking ein CSV und konvertiert es passend für den CSV-Importer
+baut das obige Image (falls nötig), erzeugt mittels aqbanking ein CSV und konvertiert es passend für den CSV-Importer.
+Erwartet eine "env"-Datei basierend auf der "env.template". Diese Datei einfach in $HOME/.aqbanking ablegen.
 
 
