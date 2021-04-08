@@ -1,0 +1,3 @@
+[submodule "dkb-visa"]
+	path = dkb-visa
+	url = git@github.com:devfaz/dkb-visa.git
