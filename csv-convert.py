@@ -43,7 +43,7 @@ for row in reader:
     if re.match('\d{2}.\d{2}.\d{4}', row[args.dffield]):
         line_date = datetime.datetime.strptime(row[args.dffield], '%d.%m.%Y')
         filter_date = datetime.datetime.strptime(args.date, '%d.%m.%Y')
-        if line_date < filter_date:
+        if line_date <= filter_date:
           continue
 
   writer.writerow(row)

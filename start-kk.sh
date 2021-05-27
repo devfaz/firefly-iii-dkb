@@ -33,8 +33,13 @@ export PIN=$( grep PIN_ ~/.aqbanking/pinfile | cut -d= -f 2 | xargs )
 
 echo "RAW dkb-visa:"
 python dkb-visa/dkb.py --userid $DKB_USER --cardid $DKB_CARDID --output=${TMP}/kk.csv --raw --from-date="${FETCH_FROMDATE}" --to-date="${TODATE}"
-echo "csv-convert:"
+echo "---"
+
+echo "csv-convert: $TODATE >= TODAY > $FROMDATE"
 ./csv-convert.py --input ${TMP}/kk.csv --output output.kk.csv --date ${FROMDATE}
+echo "---"
+
+echo "Output:"
 cat output.kk.csv
 echo "---"
 echo rm -v ${FILE}
