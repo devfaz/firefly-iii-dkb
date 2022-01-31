@@ -31,18 +31,20 @@ TMP=$( mktemp -d )
 
 export PIN=$( grep PIN_ ~/.aqbanking/pinfile | cut -d= -f 2 | xargs )
 
-echo "RAW dkb-visa:"
-python dkb-visa/dkb.py --userid $DKB_USER --cardid $DKB_CARDID --output=${TMP}/kk.csv --raw --from-date="${FETCH_FROMDATE}" --to-date="${TODATE}"
-echo "---"
+for DKB_CARDID in $DKB_CARDIDS
+do
+  echo "RAW dkb-visa:"
+  python dkb-visa/dkb.py --userid $DKB_USER --cardid $DKB_CARDID --output=${TMP}/kk-${DKB_CARDID}.csv --raw --from-date="${FETCH_FROMDATE}" --to-date="${TODATE}"
+  echo "---"
 
-echo "csv-convert: $TODATE >= TODAY > $FROMDATE"
-./csv-convert.py --input ${TMP}/kk.csv --output output.kk.csv --date ${FROMDATE}
-echo "---"
+  echo "csv-convert: $TODATE >= TODAY > $FROMDATE"
+  ./csv-convert.py --input ${TMP}/kk-${DKB_CARDID}.csv --output output.kk-${DKB_CARDID}.csv --date ${FROMDATE}
+  echo "---"
 
-echo "Output:"
-cat output.kk.csv
-echo "---"
-echo rm -v ${FILE}
+  echo "Output:"
+  cat output.kk-${DKB_CARDID}.csv
+  echo "---"
+done
 
 echo ${TODATE_SAFE} > ${TODATE_PATH}
 

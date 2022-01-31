@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+set -e -u -o pipefail
+
 WORKPATH="/root/.aqbanking"
 source "$WORKPATH/env"
 
@@ -19,6 +20,8 @@ TODATE="$( date +%Y%m%d -d '1 day ago' )"
 
 echo "From $FROMDATE to $TODATE"
 aqhbci-tool4 -P ${WORKPATH}/pinfile getaccounts -u 1
+
+test -f ${WORKPATH}/pinfile || echo "PINFILE missing"
 
 for KTO in $KTOS
 do
