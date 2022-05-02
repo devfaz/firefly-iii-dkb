@@ -34,11 +34,13 @@ export PIN=$( grep PIN_ ~/.aqbanking/pinfile | cut -d= -f 2 | xargs )
 for DKB_CARDID in $DKB_CARDIDS
 do
   echo "RAW dkb-visa:"
-  python dkb-visa/dkb.py --userid $DKB_USER --cardid $DKB_CARDID --output=${TMP}/kk-${DKB_CARDID}.csv --raw --from-date="${FETCH_FROMDATE}" --to-date="${TODATE}"
+  python dkb-visa/dkb.py --userid $DKB_USER --cardid $DKB_CARDID --output=${TMP}/kk-${DKB_CARDID}.csv.raw --raw --from-date="${FETCH_FROMDATE}" --to-date="${TODATE}"
   echo "---"
 
+  grep "Wertstellung" < ${TMP}/kk-${DKB_CARDID}.csv.raw -A$( wc -l ${TMP}/kk-${DKB_CARDID}.csv.raw) > ${TMP}/kk-${DKB_CARDID}.csv
+
   echo "csv-convert: $TODATE >= TODAY > $FROMDATE"
-  ./csv-convert.py --input ${TMP}/kk-${DKB_CARDID}.csv --output output.kk-${DKB_CARDID}.csv --date ${FROMDATE}
+  ./csv-convert.py --input ${TMP}/kk-${DKB_CARDID}.csv --output output.kk-${DKB_CARDID}.csv --date ${FROMDATE} --date-filter-field Belegdatum
   echo "---"
 
   echo "Output:"
