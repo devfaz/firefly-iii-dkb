@@ -46,4 +46,8 @@ for row in reader:
         if line_date <= filter_date:
           continue
 
+  if len(row[12]) == 0:
+      print("No ultimateDebtor - using RemoteName")
+      row[12] = row[10]
+
   writer.writerow(row)

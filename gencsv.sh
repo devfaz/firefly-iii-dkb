@@ -27,7 +27,7 @@ for KTO in $KTOS
 do
   cd $WORKPATH
   aqbanking-cli -n -P ${WORKPATH}/pinfile request --account=${KTO} --fromdate=${FROMDATE} --todate=${TODATE} --transactions > /dev/shm/${KTO}.ctx
-  aqbanking-cli export --exporter=csv -tt statement < /dev/shm/${KTO}.ctx > ${WORKPATH}/${KTO}-${FROMDATE}-${TODATE}.csv
+  aqbanking-cli export --exporter=csv --profile-file=/opt/dkb-csv-export-profile.conf -tt statement < /dev/shm/${KTO}.ctx > ${WORKPATH}/${KTO}-${FROMDATE}-${TODATE}.csv
   echo ${TODATE} > ${WORKPATH}/TODATE
 done
 

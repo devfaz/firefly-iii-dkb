@@ -23,6 +23,7 @@ RUN echo && \
 
 
 COPY gencsv.sh /usr/local/bin/
+COPY dkb-csv-export-profile.conf /opt/
 
 RUN useradd --uid 1000 aqbanking && \
   chmod +x /usr/local/bin/ -R
