@@ -4,7 +4,7 @@ set -e
 source $HOME/.aqbanking/env
 
 mkdir -pv csv
-podman run --rm -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest /usr/local/bin/gencsv.sh
+podman run --rm -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest /usr/local/bin/gencsv.sh
 for FILE in $( find $HOME/.aqbanking/ -type f -name '*.csv' )
 do
   mv -v $FILE csv/last.csv
