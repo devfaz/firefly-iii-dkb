@@ -1,4 +1,5 @@
-env
+*.env
 *.csv
-import_config*
-dkb-visa
+*.json
+dkb-visa/
+archive/

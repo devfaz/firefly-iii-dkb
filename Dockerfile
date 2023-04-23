@@ -1,5 +1,7 @@
 FROM debian
 
+LABEL org.opencontainers.image.source = "https://github.com/devfaz/firefly-iii-dkb"
+
 RUN apt-get -qy update && \
   apt-get -qy install git-core build-essential  libtool libgcrypt-dev gnutls-dev pkg-config libxmlsec1-dev libz-dev wget gettext && \
   apt-get clean

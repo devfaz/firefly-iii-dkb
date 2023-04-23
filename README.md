@@ -1,25 +1,30 @@
 # firefly-iii-dkb 
 
-* csv-convert.py: konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der DKB) in ein Format, welches erfahrungsgemäß die wenigsten Probleme beim Import in den CSV-Importer macht.
+# SETUP
 
-* Dockerfile: baut die neuste Version von aqbanking als Container-Image
+## Vorraussetzung
 
-* gencsv.sh: erzeugt eine CSV mittels aqbanking
+* Docker / Podman / [Container-Runtime-Ihrer-Wahl]
 
-* start-giro.sh: baut das obige Image (falls nötig), erzeugt mittels aqbanking ein CSV und konvertiert es passend für den CSV-Importer.
-Erwartet eine "env"-Datei basierend auf der "env.template". Diese Datei einfach in `$HOME/.aqbanking` ablegen.
+## Config-Dateien
 
----
+Es wird eine "env"-Datei basierend auf der "env.template" benötigt.
 
-aqbanking DKB Setup:
-
-* das obige aqbanking-Image starten
-
+Einfach die env.template nach `$HOME/.aqbanking` kopieren und an ihre Zugangsdaten anpassen
 ```
-podman run --rm -it -v $HOME/.aqbanking/:/root/.aqbanking/ aqbanking /bin/bash
+mkdir -pv $HOME/.aqbanking
+cp env.template $HOME/.aqbanking/env
 ```
 
-und anschließend im Container die Einrichtung durchführen:
+## aqbanking DKB Setup:
+
+* das aqbanking-Image starten
+
+```
+podman run --rm -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest /bin/bash
+```
+
+* anschließend im Container die Einrichtung durchführen:
 
 ```
 LOGIN="<DKB-Webinterface-Login>"
@@ -35,5 +40,39 @@ aqhbci-tool4 listaccounts -v
 # für jeden gewünschten Account dann:
 aqhbci-tool4 getaccsepa -a <ACCOUNT_ID>
 ```
+*weitere Erläuterungen der Befehle auf der aqbanking Website*
 
-Erläuterungen der Befehle auf der aqbanking Website.
+* den Container wieder verlassen
+```
+exit
+```
+
+## Abruf starten
+
+```
+./start-giro.sh
+```
+
+Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.
+Sämtliche Status-Dateien liegen in $HOME/.aqbanking/ und können - bei Bedarf - editiert werden.
+
+# Dateien
+
+**csv-convert.py**
+
+konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der DKB) in ein Format, welches erfahrungsgemäß die wenigsten Probleme beim Import in den CSV-Importer macht.
+
+**Dockerfile**
+
+erzeugt ein Container-Image welches aqbanking enthält
+
+**gencsv.sh**
+
+erzeugt eine CSV mittels aqbanking
+
+**start-giro.sh**
+
+erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
+
+
+---
