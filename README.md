@@ -4,7 +4,7 @@
 
 ## Vorraussetzung
 
-* Docker / Podman / [Container-Runtime-Ihrer-Wahl]
+* Docker / Podman / containerd (nerdctl) / ...
 
 ## Config-Dateien
 

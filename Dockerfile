@@ -7,19 +7,19 @@ RUN apt-get -qy update && \
   apt-get clean
 
 RUN echo && \
-  wget "https://www.aquamaniac.de/rdm/attachments/download/411/gwenhywfar-5.8.2.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
-  wget "https://www.aquamaniac.de/rdm/attachments/download/400/aqbanking-6.4.1.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
+  wget "https://www.aquamaniac.de/rdm/attachments/download/415/gwenhywfar-5.9.0.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
+  wget "https://www.aquamaniac.de/rdm/attachments/download/499/aqbanking-6.5.4.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
   cd /usr/src/gwenhywfar* && \
   make -fMakefile.cvs && \
   ./configure --prefix=/ --exec-prefix=/usr --with-guis="" && \
-  make && \
+  make -j $( nproc ) && \
   make install && \
   cd /usr/src/aqbanking* && \
-  make -fMakefile.cvs && \
+  make -fMakefile.cvs -j $( nproc ) && \
   ./configure --prefix=/ --exec-prefix=/usr --with-xmlmerge=/usr/bin/xmlmerge && \
   make typedefs && \
   make types && \
-  make && \
+  make -j $( nproc ) && \
   make install && \
   rm -R /usr/src/*
 
