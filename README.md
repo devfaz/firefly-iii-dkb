@@ -74,5 +74,9 @@ erzeugt eine CSV mittels aqbanking
 
 erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
 
+**start-barc.sh**
+
+sucht eine Umsätze.xlsx in $HOME/Downloads/ und erzeugt daraus eine CSB für firefly-iii-importer.
+Die Umsätze.xlsx kann einfach aus der WebGUI der Barclay heruntergeladen werden.
 
 ---
