@@ -1,4 +1,4 @@
-FROM debian:bullseye-20230411
+FROM debian
 
 LABEL org.opencontainers.image.source = "https://github.com/devfaz/firefly-iii-dkb"
 
