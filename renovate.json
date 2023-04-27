@@ -1,7 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", ":disableDependencyDashboard", ":automergeMinor", ":automergeDigest", ":automergeBranch", ":skipStatusChecks"],
-  "docker": {
-    "pinDigests": true
-  }
+  "extends": ["config:base", ":disableDependencyDashboard", ":automergeMinor", ":automergeDigest", ":automergeBranch", ":skipStatusChecks", "docker:pinDigests"],
 }
