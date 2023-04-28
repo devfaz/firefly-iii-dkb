@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["gitea>rfc2324/renovate-config"]
+  "extends": ["local>rfc2324/renovate-config"]
 }
