@@ -33,16 +33,18 @@ writer.writeheader()
 found = 0
 
 for row in reader:
+  print("---")
   pprint.pprint(row)
-
 
   for k in row.keys():
       row[k] = row[k].replace("€", "").strip()
       if args.search:
           if re.search(args.search, row[k]):
+              print("Hey! Found search-string")
               found =1
 
   if args.search and found != 1:
+      print("Skipping line: search-string not found yet")
       continue
 
   if args.date:
@@ -50,6 +52,7 @@ for row in reader:
         line_date = datetime.datetime.strptime(row[args.dffield], '%d.%m.%Y')
         filter_date = datetime.datetime.strptime(args.date, '%d.%m.%Y')
         if line_date <= filter_date:
+          print("Skipping line: outdated")
           continue
 
   if 'ultimateDebtor' in row.keys():
