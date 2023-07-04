@@ -1,4 +1,4 @@
-FROM debian@sha256:d568e251e460295a8743e9d5ef7de673c5a8f9027db11f4e666e96fb5bed708e
+FROM debian@sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b
 
 LABEL org.opencontainers.image.source = "https://github.com/devfaz/firefly-iii-dkb"
 
