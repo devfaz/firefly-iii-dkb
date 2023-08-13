@@ -2,8 +2,9 @@
 set -e -o pipefail
 
 source $HOME/.aqbanking/env
+KTO=$1
 
 curl --location --request POST "${AUTOIMPORT_URL}" \
 --header 'Accept: application/json' \
---form 'importable=@"./output.giro.csv"' \
---form 'json=@"./import_config_giro.json"'
+--form 'importable=@"./'${KTO}'.csv"' \
+--form 'json=@"./import_config_'${KTO}'.json"'
