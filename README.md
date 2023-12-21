@@ -50,7 +50,7 @@ exit
 ## Abruf starten
 
 ```
-./start-giro.sh
+./start-dkb.sh
 ```
 
 Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.
@@ -70,7 +70,7 @@ erzeugt ein Container-Image welches aqbanking enthält
 
 erzeugt eine CSV mittels aqbanking
 
-**start-giro.sh**
+**start-dkb.sh**
 
 erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
 

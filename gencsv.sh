@@ -28,7 +28,16 @@ cd $WORKPATH
 for KTO in $KTOS
 do
   aqbanking-cli -n -P ${WORKPATH}/pinfile request --account=${KTO} --fromdate=${FROMDATE} --todate=${TODATE} --transactions > /dev/shm/${KTO}.ctx
-  aqbanking-cli export --exporter=csv --profile-file=/opt/dkb-csv-export-profile.conf -tt statement < /dev/shm/${KTO}.ctx > ${WORKPATH}/${KTO}-${FROMDATE}-${TODATE}.csv
+  aqbanking-cli export --exporter=csv --profile-file=/opt/dkb-csv-export-profile.conf -tt statement < /dev/shm/${KTO}.ctx > /dev/shm/${KTO}-${FROMDATE}-${TODATE}.csv
+done
+
+#
+# convert csv
+for FILE in $( find /dev/shm/ -type f -name '*.csv' )
+do
+  FILENAME=$( basename $FILE )
+  csv-convert.py --input $FILE --output $WORKPATH/$FILENAME
+  rm -v $FILE
 done
 
 echo ${TODATE} > ${WORKPATH}/TODATE
