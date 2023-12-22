@@ -11,7 +11,7 @@ mkdir -pv archive
 podman run --rm --pull=newer -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest /usr/local/bin/gencsv.sh
 
 echo "Moving generated csv into local directory"
-find $HOME/.aqbanking/ -type f -name '*.csv' -print0 | xargs -0 -r mv -v {} .
+find $HOME/.aqbanking/ -type f -name '*.csv' -print0 | xargs -0 -r -i mv -v {} .
 echo "---"
 #
 # push csv to firefly-iii
