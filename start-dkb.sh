@@ -6,9 +6,17 @@ source $HOME/.aqbanking/env
 mkdir -pv csv
 mkdir -pv archive
 
+echo "# WARNING !"
+echo -e "#\n#\n"
+echo "# This script is obsolete and will be removed."
+echo "# Take a look into the README"
+echo "# sleeping 5s"
+sleep 5
+
 #
 # generate new csv
-podman run --rm --pull=newer -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest /usr/local/bin/gencsv.sh
+IMAGE=ghcr.io/devfaz/firefly-iii-dkb:latest
+podman run --rm --pull=newer --userns=keep-id -it -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ --entrypoint /usr/local/bin/gencsv.sh $IMAGE
 
 echo "Moving generated csv into local directory"
 find $HOME/.aqbanking/ -type f -name '*.csv' -print0 | xargs -0 -r -i mv -v {} .

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e -u -o pipefail
 
-WORKPATH="/root/.aqbanking"
+WORKPATH="$HOME/.aqbanking"
 source "$WORKPATH/env"
 
 if [ -s ${WORKPATH}/TODATE ]

@@ -21,7 +21,7 @@ cp env.template $HOME/.aqbanking/env
 * das aqbanking-Image starten
 
 ```
-podman run --rm -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest /bin/bash
+podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ --entrypoint=/bin/bash ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest 
 ```
 
 * anschließend im Container die Einrichtung durchführen:
@@ -50,11 +50,13 @@ exit
 ## Abruf starten
 
 ```
-./start-dkb.sh
+podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest
 ```
 
 Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.
 Sämtliche Status-Dateien liegen in $HOME/.aqbanking/ und können - bei Bedarf - editiert werden.
+
+Wenn die (optionale) AUTOIMPORT_URL definiert ist, dann wird das CSV automatisch per [https://docs.firefly-iii.org/how-to/data-importer/advanced/post/ HTTP-PUSH] importiert.
 
 # Dateien
 
@@ -72,7 +74,8 @@ erzeugt eine CSV mittels aqbanking
 
 **start-dkb.sh**
 
-erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
+*OBSOLETE* erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
+Bitte stattdessen einfach das Image starten und nötige config/csv Dateien werden in $HOME/.aqbanking/ verwaltet.
 
 **start-barc.sh**
 
