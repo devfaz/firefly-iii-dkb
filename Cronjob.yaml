@@ -1,0 +1,23 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: firefly-iii-dkb
+spec:
+  schedule: "0 6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: import
+            image: ghcr.io/devfaz/firefly-iii-dkb:latest
+            imagePullPolicy: Always
+            volumeMounts:
+            - mountPath: "/home/aqbanking/.aqbanking"
+              name: aqbanking-data
+          restartPolicy: OnFailure
+          volumes:
+            - name: aqbanking-data
+              persistentVolumeClaim:
+                claimName: firefly-iii-dkb-pvc

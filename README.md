@@ -82,4 +82,8 @@ Bitte stattdessen einfach das Image starten und nötige config/csv Dateien werde
 sucht eine Umsätze.xlsx in $HOME/Downloads/ und erzeugt daraus eine CSB für firefly-iii-importer.
 Die Umsätze.xlsx kann einfach aus der WebGUI der Barclay heruntergeladen werden.
 
+**Cronjob.yaml**
+
+einfach ein Beispiel, wie das Image als Cronjob ausgeführt werden könnte.
+
 ---
