@@ -34,6 +34,9 @@ aqhbci-tool4 getbankinfo -u 1
 aqhbci-tool4 getsysid -u 1
 aqhbci-tool4 listitanmodes -u 1
 aqhbci-tool4 setitanmode -u 1 -m 6921
+# seit 02/24 wohl nötig - "GooglePixel6" ist der Name des Gerätes auf dem Tan2Go aktiviert wurde.
+# Service->Verwaltung TAN-Verfahren->Tan2Go Verwalten->Gerätename: xxx
+aqhbci-tool4 setTanMediumId -u 1 -m 'Tan2GoGeraetename'
 aqhbci-tool4 getaccounts -u 1
 aqhbci-tool4 listaccounts -v
 
