@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: import
-            image: ghcr.io/devfaz/firefly-iii-dkb:latest@sha256:1720a3bff3917fd14406dc87c705d6bf123c63eda28ad146ef2f11092c290786
+            image: ghcr.io/devfaz/firefly-iii-dkb:latest@sha256:2605ab7ecf2ba1b24b716ded9098d2f5d1776824a9b9a73273a454b0ff63f685
             imagePullPolicy: Always
             volumeMounts:
             - mountPath: "/home/aqbanking/.aqbanking"
