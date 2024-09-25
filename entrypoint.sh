@@ -12,6 +12,7 @@ source $HOME/.aqbanking/env
 
 mkdir -pv csv
 mkdir -pv archive
+mkdir -pv balance
 
 #
 # generate new csv
@@ -33,3 +34,4 @@ if [ -n "${AUTOIMPORT_URL}" ]; then
         fi
     done
 fi
+

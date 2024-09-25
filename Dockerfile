@@ -30,6 +30,7 @@ COPY gencsv.sh csv-convert.py /usr/local/bin/
 COPY start-dkb.sh /usr/local/bin
 COPY autoimport.sh /usr/local/bin
 COPY entrypoint.sh /usr/local/bin
+COPY balances.py /usr/local/bin
 
 COPY dkb-csv-export-profile.conf /opt/
 
