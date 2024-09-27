@@ -1,4 +1,4 @@
-FROM debian:bookworm@sha256:853d7c68446fffc63430509413b88256534e205d25639eae44bf41c1409e20b2
+FROM debian:bookworm@sha256:f8ea815079859fe8285549d952384b9e8041db2f6ebcc0af95970b7f33be5062
 LABEL org.opencontainers.image.source = "https://github.com/devfaz/firefly-iii-dkb"
 
 RUN apt-get -qy update && \
