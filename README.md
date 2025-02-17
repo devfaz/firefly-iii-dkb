@@ -33,15 +33,19 @@ aqhbci-tool4 adduser -t pintan --context=1 -b 12030000 -u ${LOGIN} -s "https://f
 aqhbci-tool4 getbankinfo -u 1
 aqhbci-tool4 getsysid -u 1
 aqhbci-tool4 listitanmodes -u 1
-aqhbci-tool4 setitanmode -u 1 -m 6921
+aqhbci-tool4 setitanmode -u 1 -m 7940 # DKB-App Tan-Mode
 # seit 02/24 wohl nötig - "GooglePixel6" ist der Name des Gerätes auf dem Tan2Go aktiviert wurde.
 # Service->Verwaltung TAN-Verfahren->Tan2Go Verwalten->Gerätename: xxx
-aqhbci-tool4 setTanMediumId -u 1 -m 'Tan2GoGeraetename'
+# seit 02/25 (Wechsel auf FinTS.dkb.de) wohl nicht mehr benötigt
+# aqhbci-tool4 setTanMediumId -u 1 -m 'Tan2GoGeraetename'
 aqhbci-tool4 getaccounts -u 1
 aqhbci-tool4 listaccounts -v
 
 # für jeden gewünschten Account dann:
 aqhbci-tool4 getaccsepa -a <ACCOUNT_ID>
+
+# leider muss seit 02/25 folgende Ersetzung noch durchgeführt werden, um die BIC in den accounts zu setzen.
+find $HOME/.aqbanking/settings6/accounts/ -type f -name '*.conf' | xargs -n1 -r -t sed -i '/char bankCode=.*"/a char bic="BYLADEM1001"'
 ```
 *weitere Erläuterungen der Befehle auf der aqbanking Website*
 
