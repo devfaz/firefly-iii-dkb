@@ -21,7 +21,7 @@ cp env.template $HOME/.aqbanking/env
 * das aqbanking-Image starten
 
 ```
-podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ --entrypoint=/bin/bash ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest 
+podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ --entrypoint=/bin/bash ghcr.io/devfaz/firefly-iii-dkb:latest
 ```
 
 * anschließend im Container die Einrichtung durchführen:
@@ -29,7 +29,7 @@ podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqban
 ```
 LOGIN="<DKB-Webinterface-Login>"
 NAME="<Vor und Nachname, wie er im Webinterface hinterlegt ist>"
-aqhbci-tool4 adduser -t pintan --context=1 -b 12030000 -u ${LOGIN} -s "https://banking-dkb.s-fints-pt-dkb.de/fints30" -N ${NAME} --hbciversion=300
+aqhbci-tool4 adduser -t pintan --context=1 -b 12030000 -u ${LOGIN} -s "https://fints.dkb.de/fints" -N "${NAME}" --hbciversion=300
 aqhbci-tool4 getbankinfo -u 1
 aqhbci-tool4 getsysid -u 1
 aqhbci-tool4 listitanmodes -u 1
@@ -53,7 +53,7 @@ exit
 ## Abruf starten
 
 ```
-podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb/aqbanking:latest
+podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest
 ```
 
 Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.
