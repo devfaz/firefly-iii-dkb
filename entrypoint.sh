@@ -24,7 +24,7 @@ if [ -n "${AUTOIMPORT_URL}" ]; then
     do
         if [ -e "import_config_${KTO}.json" ]; then
             FILE=$( find . -maxdepth 1 -name "${KTO}*.csv" )
-            if [ -n "${FILE}" ] && [ -e "${FILE}" ]; then
+            if [ -n "${FILE}" ] && [ -e "${FILE}" ] && [ $( wc -l < "${FILE}" ) -gt "1" ]; then
                 echo "Starting auto-import of ${KTO}"
                 mv -v "${FILE}" "${KTO}.csv"
                 autoimport.sh ${KTO}
