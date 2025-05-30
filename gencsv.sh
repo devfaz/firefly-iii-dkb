@@ -37,7 +37,7 @@ done
 for FILE in $( find /dev/shm/ -type f -name '*.csv' )
 do
   FILENAME=$( basename $FILE )
-  csv-convert.py --input $FILE --output $WORKPATH/$FILENAME
+  csv-convert.py --input $FILE --output $WORKPATH/$FILENAME $CSV_CONVERT_ARGS
   rm -v $FILE
 done
 

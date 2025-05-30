@@ -21,7 +21,7 @@ cp env.template $HOME/.aqbanking/env
 * das aqbanking-Image starten
 
 ```
-podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ --entrypoint=/bin/bash ghcr.io/devfaz/firefly-iii-dkb:latest
+podman run --rm --pull newer -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ --entrypoint=/bin/bash ghcr.io/devfaz/firefly-iii-dkb:latest
 ```
 
 * anschließend im Container die Einrichtung durchführen:
@@ -57,7 +57,7 @@ exit
 ## Abruf starten
 
 ```
-podman run --rm -it --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest
+podman run --rm -it --pull newer --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest
 ```
 
 Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.

@@ -11,12 +11,23 @@ parser = argparse.ArgumentParser(description='convert csv')
 parser.add_argument('--input', dest='input', help='file to read csv', required=True)
 parser.add_argument('--output', dest='output', help='file to read csv', default='output.csv', required=False)
 parser.add_argument('--delimiter', dest='delimiter', help='str to delimit', default=';')
+parser.add_argument('--verbose', dest='verbose', help='be more verbose', required=False, default=False, action=argparse.BooleanOptionalAction)
+parser.add_argument('--title', dest='title', help='uppercase first letter of all words', required=False, default=False, action=argparse.BooleanOptionalAction)
+parser.add_argument('--slashsplit', dest='slashsplit', help='remove everything behind / from remoteName', required=False, default=False, action=argparse.BooleanOptionalAction)
+parser.add_argument('--trimfile', dest='trimfile', help='if string is found in remoteName - trim remaining chars', required=False, default='')
 parser.add_argument('--write-delimiter', dest='wdelimiter', help='str to delimit', default=',')
 parser.add_argument('--date-filter-field', dest='dffield', type=str, help='field to apply date-filter on', default='date')
 parser.add_argument('--date', dest='date', help='date to apply on date-filter-field', required=False)
 parser.add_argument('--search', dest='search', help='skip all lines till this string was found', required=False)
 
 args = parser.parse_args()
+
+trimPrefixes = []
+if len(args.trimfile) > 0:
+    with open(args.trimfile, 'r') as trimfile:
+        trimPrefixes = [line.rstrip() for line in trimfile]
+        if args.verbose:
+           pprint.pprint(trimPrefixes)
 
 if re.match(".*\.xls.*", args.input):
     print("XLS file detected")
@@ -33,18 +44,19 @@ writer.writeheader()
 found = 0
 
 for row in reader:
-  print("---")
-  pprint.pprint(row)
+  if args.verbose:
+    print("---")
+    pprint.pprint(row)
 
   for k in row.keys():
       row[k] = row[k].replace("€", "").strip()
       if args.search:
           if re.search(args.search, row[k]):
-              print("Hey! Found search-string")
+              if args.verbose: print("Hey! Found search-string")
               found =1
 
   if args.search and found != 1:
-      print("Skipping line: search-string not found yet")
+      if args.verbose: print("Skipping line: search-string not found yet")
       continue
 
   if args.date:
@@ -52,15 +64,26 @@ for row in reader:
         line_date = datetime.datetime.strptime(row[args.dffield], '%d.%m.%Y')
         filter_date = datetime.datetime.strptime(args.date, '%d.%m.%Y')
         if line_date <= filter_date:
-          print("Skipping line: outdated")
+          if args.verbose: print("Skipping line: outdated")
           continue
+
+  if args.title:
+    row['remoteName'] = row['remoteName'].title()
+
+  if args.slashsplit:
+    row['remoteName'] = row['remoteName'].split('/')[0]
 
   if 'ultimateDebtor' in row.keys():
       if len(row['ultimateDebtor']) == 0:
-          print("No ultimateDebtor - using RemoteName")
+          for trimPrefix in trimPrefixes:
+            if trimPrefix.lower() in row['remoteName'].lower():
+              if args.verbose: print("Found trimprefix")
+              row['remoteName'] = trimPrefix
+
+          if args.verbose: print("No ultimateDebtor - using RemoteName")
           row['ultimateDebtor'] = row['remoteName']
       else:
-          print("Found ultimateDebtor - so filling purpose")
+          if args.verbose: print("Found ultimateDebtor - so filling purpose")
           row['purpose'] = row['ultimateDebtor'] + ": " + row['purpose']
 
   writer.writerow(row)
