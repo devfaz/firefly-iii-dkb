@@ -76,7 +76,7 @@ for row in reader:
   if 'ultimateDebtor' in row.keys():
       if len(row['ultimateDebtor']) == 0:
           for trimPrefix in trimPrefixes:
-            if trimPrefix.lower() in row['remoteName'].lower():
+            if re.search('^' + trimPrefix.lower(), row['remoteName'].lower()):
               if args.verbose: print("Found trimprefix")
               row['remoteName'] = trimPrefix
 
