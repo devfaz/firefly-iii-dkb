@@ -15,6 +15,7 @@ parser.add_argument('--verbose', dest='verbose', help='be more verbose', require
 parser.add_argument('--title', dest='title', help='uppercase first letter of all words', required=False, default=False, action=argparse.BooleanOptionalAction)
 parser.add_argument('--slashsplit', dest='slashsplit', help='remove everything behind / from remoteName', required=False, default=False, action=argparse.BooleanOptionalAction)
 parser.add_argument('--trimfile', dest='trimfile', help='if string is found in remoteName - trim remaining chars', required=False, default='')
+parser.add_argument('--extendfile', dest='extendfile', help='if string is found in remoteName - extend remoteName by IBAN', required=False, default='')
 parser.add_argument('--write-delimiter', dest='wdelimiter', help='str to delimit', default=',')
 parser.add_argument('--date-filter-field', dest='dffield', type=str, help='field to apply date-filter on', default='date')
 parser.add_argument('--date', dest='date', help='date to apply on date-filter-field', required=False)
@@ -22,12 +23,19 @@ parser.add_argument('--search', dest='search', help='skip all lines till this st
 
 args = parser.parse_args()
 
-trimPrefixes = []
+trimRegexs = []
 if len(args.trimfile) > 0:
     with open(args.trimfile, 'r') as trimfile:
-        trimPrefixes = [line.rstrip() for line in trimfile]
+        trimRegexs = [line.rstrip() for line in trimfile]
         if args.verbose:
-           pprint.pprint(trimPrefixes)
+           pprint.pprint(trimRegexs)
+
+extendRegexs = []
+if len(args.extendfile) > 0:
+    with open(args.extendfile, 'r') as extendfile:
+        extendRegexs = [line.rstrip() for line in extendfile]
+        if args.verbose:
+           pprint.pprint(extendRegexs)
 
 if re.match(".*\.xls.*", args.input):
     print("XLS file detected")
@@ -73,13 +81,20 @@ for row in reader:
   if args.slashsplit:
     row['remoteName'] = row['remoteName'].split('/')[0]
 
+  for trimRegex in trimRegexs:
+    match = re.search(trimRegex, row['remoteName'], re.IGNORECASE)
+    if match:
+      if args.verbose: print("Found trimprefix")
+      row['remoteName'] = match.group()
+
+  for extendRegex in extendRegexs:
+    match = re.search(extendRegex, row['remoteName'], re.IGNORECASE)
+    if match:
+      if args.verbose: print("Found extendRegex")
+      row['remoteName'] = f"{row['remoteName']} ({row['remoteAccountNumber']})"
+
   if 'ultimateDebtor' in row.keys():
       if len(row['ultimateDebtor']) == 0:
-          for trimPrefix in trimPrefixes:
-            if re.search('^' + trimPrefix.lower(), row['remoteName'].lower()):
-              if args.verbose: print("Found trimprefix")
-              row['remoteName'] = trimPrefix
-
           if args.verbose: print("No ultimateDebtor - using RemoteName")
           row['ultimateDebtor'] = row['remoteName']
       else:
