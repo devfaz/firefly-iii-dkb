@@ -81,8 +81,7 @@ erzeugt eine CSV mittels aqbanking
 
 **start-dkb.sh**
 
-*OBSOLETE* erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
-Bitte stattdessen einfach das Image starten und nötige config/csv Dateien werden in $HOME/.aqbanking/ verwaltet.
+erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
 
 **start-barc.sh**
 
