@@ -1,0 +1,27 @@
+on: [push]
+
+env:
+  IMAGE: ghcr.io/devfaz/firefly-iii-dkb
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare
+        run: |-
+          export DEBIAN_FRONTEND=noninteractive
+          set -e -o pipefail -u
+          apt -qqy update
+          apt -qqy install docker.io
+          echo ${{ secrets.MY_GITHUB_TOKEN }} | docker login --username devfaz --password-stdin $REGISTRY
+          docker build -t ${IMAGE}:latest .
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"          
+      - name: Release
+        run: |-
+          npm install @semantic-release/exec -D
+          npx semantic-release

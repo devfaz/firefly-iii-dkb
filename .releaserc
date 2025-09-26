@@ -1,0 +1,22 @@
+{
+  "branches": ["main", "next"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          { "type": "chore", "release": "patch" },
+          { "type": "build", "release": "patch" }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "./scripts/publish.sh ${nextRelease.version} ${branch.name} ${commits.length} ${Date.now()}"
+      }
+    ],
+    "@semantic-release/release-notes-generator"
+  ]
+}
