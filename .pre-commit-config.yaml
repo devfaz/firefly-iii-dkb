@@ -1,0 +1,19 @@
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.13.2
+  hooks:
+    # Run the linter.
+    - id: ruff-check
+    # Run the formatter.
+    - id: ruff-format
+- repo: https://github.com/scop/pre-commit-shfmt
+  rev: v3.12.0-2
+  hooks:
+    # Choose one of:
+    - id: shfmt         # prebuilt upstream executable
+- repo: https://github.com/commitizen-tools/commitizen
+  rev: v1.17.0
+  hooks:
+    - id: commitizen
+      stages: [commit-msg]
