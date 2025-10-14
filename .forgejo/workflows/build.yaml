@@ -18,7 +18,7 @@ jobs:
           echo ${{ secrets.MY_GITHUB_TOKEN }} | docker login --username devfaz --password-stdin $REGISTRY
           docker build -t ${IMAGE}:latest .
       - name: Setup Node.js
-        uses: https://data.forgejo.org/actions/setup-node@v5
+        uses: https://data.forgejo.org/actions/setup-node@v6
         with:
           node-version: "lts/*"          
       - name: Release
