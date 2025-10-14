@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e -o pipefail -u
 
 WORKPATH="$HOME/.aqbanking"
 TODATE_PATH="$WORKPATH/TODATE_KK_BARC"

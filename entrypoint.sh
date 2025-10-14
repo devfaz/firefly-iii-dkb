@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -o pipefail
+set -e -o pipefail -u
 # podman run --rm --pull=newer -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest /usr/local/bin/gencsv.sh
 
 echo "Starting.."
@@ -22,7 +22,7 @@ gencsv.sh
 
 set -x
 # push csv to firefly-iii
-if [ -n "${AUTOIMPORT_URL}" ]; then
+if [ -n "${AUTOIMPORT_URL:-}" ]; then
 	echo "Starting AUTOIMPORT.."
 	for KTO in ${KTOS}; do
 		if [ -e "import_config_${KTO}.json" ]; then

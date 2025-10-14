@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -o pipefail
+set -e -o pipefail -u
 
 source $HOME/.aqbanking/env
 KTO=$1
