@@ -15,10 +15,13 @@ else
 fi
 TODATE="$(date +%Y%m%d -d '1 day ago')"
 
+if [ ! -f "${WORKPATH}/pinfile" ]; then
+	echo "PINFILE missing"
+	exit 1
+fi
+
 echo "From $FROMDATE to $TODATE"
 aqhbci-tool4 -P ${WORKPATH}/pinfile getaccounts -u 1
-
-test -f ${WORKPATH}/pinfile || echo "PINFILE missing"
 
 cd $WORKPATH
 

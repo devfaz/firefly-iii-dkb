@@ -14,6 +14,7 @@ Einfach die env.template nach `$HOME/.aqbanking` kopieren und an ihre Zugangsdat
 ```
 mkdir -pv $HOME/.aqbanking
 cp env.template $HOME/.aqbanking/env
+cp pinfile.template $HOME/.aqbanking/pinfile
 ```
 
 ## aqbanking DKB Setup:
@@ -63,7 +64,7 @@ podman run --rm -it --pull newer --userns=keep-id -v $HOME/.aqbanking/:/home/aqb
 Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.
 Sämtliche Status-Dateien liegen in $HOME/.aqbanking/ und können - bei Bedarf - editiert werden.
 
-Wenn die (optionale) AUTOIMPORT_URL definiert ist, dann wird das CSV automatisch per [https://docs.firefly-iii.org/how-to/data-importer/advanced/post/ HTTP-PUSH] importiert.
+Wenn die (optionale) AUTOIMPORT_URL definiert ist, dann wird das CSV automatisch per [HTTP-PUSH](https://docs.firefly-iii.org/how-to/data-importer/advanced/post/) importiert.
 
 # Dateien
 

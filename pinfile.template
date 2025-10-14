@@ -1,0 +1,5 @@
+# This is a PIN file to be used with AqBanking
+# Please insert the PINs/passwords for the users below
+
+# User "example" at "12030000" (BLZ)
+PIN_12030000_example = "verySecure"
