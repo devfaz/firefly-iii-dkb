@@ -68,6 +68,17 @@ Wenn die (optionale) AUTOIMPORT_URL definiert ist, dann wird das CSV automatisch
 
 # Dateien
 
+**start-dkb.sh**
+
+erzeugt mittels aqbanking (gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py) und erstellt Dateien mit dem aktuellen Kontostand (balances.py)
+
+**start-barc.sh**
+
+sucht eine Umsätze.xlsx in $HOME/Downloads/ und erzeugt daraus eine CSB für firefly-iii-importer.
+Die Umsätze.xlsx kann einfach aus der WebGUI der Barclay heruntergeladen werden.
+
+# Helper (werden durch obige Dateien automatisch verwendet)
+
 **csv-convert.py**
 
 konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der DKB) in ein Format, welches erfahrungsgemäß die wenigsten Probleme beim Import in den CSV-Importer macht.
@@ -80,13 +91,8 @@ erzeugt ein Container-Image welches aqbanking enthält
 
 erzeugt eine CSV mittels aqbanking
 
-**start-dkb.sh**
+**balances.py**
 
-erzeugt mittels aqbanking (siehe gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py)
-
-**start-barc.sh**
-
-sucht eine Umsätze.xlsx in $HOME/Downloads/ und erzeugt daraus eine CSB für firefly-iii-importer.
-Die Umsätze.xlsx kann einfach aus der WebGUI der Barclay heruntergeladen werden.
+wird automatisch durch start-dkb.sh aufgerufen. Es erzeugt eine Datei in $HOME/.aqbanking/balance/ für jedes Konto mit dem gebuchten Kontostand des Abrufes. Erleichtert den "Abgleich" in Firefly-III, denn leider liefert das "neue" Webinterface der DKB ja keinen Kontostand für vergangene Tage mehr.
 
 ---
