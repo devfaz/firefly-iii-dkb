@@ -5,13 +5,18 @@ import sys
 f = open(sys.argv[1], "r")
 content = f.read()
 
-regex = r"balance {\n\s+.*date=\"([0-9]+)\".*\n\s+.*value=\"([0-9]+)([0-9]{2})%2F100.*\n\s.*type=\"noted\"\n\s+}\s#balance\b"
+regex = r"balance {\n\s+.*date=\"([0-9]+)\".*\n\s+.*value=\"([0-9]+)%2F(\d+).*\n\s.*type=\"noted\"\n\s+}\s#balance\b"
 matches = re.findall(regex, content, re.MULTILINE)
-
 for balance in matches:
-    print(f"{balance[0]} {balance[1]},{balance[2]}€")
+    date = int(balance[0])
+    value = int(balance[1])
+    div = int(balance[2])
+    amount = value / div
+    print(f"{date} {amount:0.2f}€")
 
 regex = r"balance {\n\s+.*date=\"([0-9]+)\".*\n\s+.*value=\"([0-9]+)%3AEUR.*\n\s.*type=\"noted\"\n\s+}\s#balance\b"
 matches = re.findall(regex, content, re.MULTILINE)
 for balance in matches:
-    print(f"{balance[0]} {balance[1]},00€")
+    date = int(balance[0])
+    amount = int(balance[1])
+    print(f"{date} {amount:0.2f}€")
