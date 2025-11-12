@@ -28,7 +28,7 @@ cd $WORKPATH
 for KTO in $KTOS; do
 	aqbanking-cli --acceptvalidcerts -n -P ${WORKPATH}/pinfile request --account=${KTO} --fromdate=${FROMDATE} --todate=${TODATE} --transactions --balance >/dev/shm/${KTO}.ctx
 	aqbanking-cli export --exporter=csv --profile-file=/opt/dkb-csv-export-profile.conf -tt statement </dev/shm/${KTO}.ctx >/dev/shm/${KTO}-${FROMDATE}-${TODATE}.csv
-	balances.py /dev/shm/${KTO}.ctx >$WORKPATH/balance/${KTO}
+	balances.py /dev/shm/${KTO}.ctx | tee $WORKPATH/balance/${KTO}
 done
 
 #
