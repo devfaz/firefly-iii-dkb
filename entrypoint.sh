@@ -27,13 +27,13 @@ if [ -n "${AUTOIMPORT_URL:-}" ]; then
 	for KTO in ${KTOS}; do
 		if [ -e "import_config_${KTO}.json" ]; then
 			find . -maxdepth 1 -name "${KTO}*.csv" | while read FILE; do
-				if [ -n "${FILE}" && [ -e "${FILE}" ]; then
+				if [ -n "${FILE}" ] && [ -e "${FILE}" ]; then
 					mv -v "${FILE}" "${KTO}.csv"
 				else
 					echo "${FILE} not defined or unreadable"
 					exit 1
 				fi
-				if [ $(wc -l <"${FILE}") -gt "1" ]; then
+				if [ $(wc -l <"${KTO}.csv") -gt "1" ]; then
 					echo "Starting auto-import of ${KTO}"
 					autoimport.sh ${KTO}
 					echo "---"
