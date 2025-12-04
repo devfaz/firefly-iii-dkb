@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: docker
     steps:
-      - uses: https://data.forgejo.org/actions/checkout@v5
+      - uses: https://data.forgejo.org/actions/checkout@v6
       - name: Prepare
         run: |-
           export DEBIAN_FRONTEND=noninteractive
