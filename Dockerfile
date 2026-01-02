@@ -6,8 +6,8 @@ RUN apt-get -qy update && \
   apt-get clean
 
 RUN echo && \
-  wget "https://www.aquamaniac.de/rdm/attachments/download/529/gwenhywfar-5.12.0.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
-  wget "https://www.aquamaniac.de/rdm/attachments/download/531/aqbanking-6.6.0.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
+  wget "https://aquamaniac.de/rdm/attachments/download/630/gwenhywfar-5.14.1.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
+  wget "https://aquamaniac.de/rdm/attachments/download/646/aqbanking-6.8.4.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
   cd /usr/src/gwenhywfar* && \
   make -fMakefile.cvs && \
   ./configure --prefix=/ --exec-prefix=/usr --with-guis="" && \
