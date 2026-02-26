@@ -1,5 +1,7 @@
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
 env:
   IMAGE: ghcr.io/devfaz/firefly-iii-dkb
   REGISTRY: ghcr.io
@@ -18,7 +20,7 @@ jobs:
           apt -qqy update
           apt -qqy install docker.io
           echo ${{ secrets.MY_GITHUB_TOKEN }} | docker login --username devfaz --password-stdin $REGISTRY
-          docker build -t ${IMAGE}:latest .
+          docker build -q -t ${IMAGE}:latest .
       - name: Setup Node.js
         uses: https://data.forgejo.org/actions/setup-node@v6
         with:
