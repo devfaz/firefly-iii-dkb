@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: docker
     container:
-      image: node:25-trixie@sha256:394048fb359d02efc485852ab638cac322a35af228c2cef83d23fc7dd01f4a36
+      image: node:25-trixie@sha256:642e39683bb9056e135120469b471ebe2ca390d79646b17de0f999b5fabc0cfc
     steps:
       - uses: https://data.forgejo.org/actions/checkout@v6
       - name: Prepare
