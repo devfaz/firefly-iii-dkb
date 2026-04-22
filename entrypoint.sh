@@ -35,10 +35,16 @@ if [ -n "${AUTOIMPORT_URL:-}" ]; then
 				fi
 				if [ $(wc -l <"${KTO}.csv") -gt "1" ]; then
 					echo "Starting auto-import of ${KTO}"
-					autoimport.sh ${KTO}
 					echo "---"
+					if autoimport.sh ${KTO}; then
+						mv -v "${KTO}.csv" "archive/$(date +%F)_$(basename $FILE)_${KTO}.csv"
+					else
+						echo "auto-import - FAILED!"
+						rm -v "${KTO}.csv"
+						exit 1
+					fi
+					echo
 				fi
-				mv -v "${KTO}.csv" "archive/$(date +%F)_$(basename $FILE)_${KTO}.csv"
 			done
 		fi
 	done
