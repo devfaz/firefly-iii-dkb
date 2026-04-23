@@ -38,7 +38,7 @@ if [ -n "${AUTOIMPORT_URL:-}" ]; then
 					echo "---"
 					if ! autoimport.sh ${KTO}; then
 						echo "auto-import - FAILED!"
-						rm -v "${KTO}.csv"
+						mv -v "${KTO}.csv" "${KTO}.csv.failed.$(date +%s)"
 						exit 1
 					fi
 				fi
