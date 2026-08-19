@@ -57,9 +57,21 @@ exit
 
 ## Abruf starten
 
+### Legacy Mode / Interaktiv
 ```
-podman run --rm -it --pull newer --userns=keep-id -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest
+./start-dkb.sh
 ```
+Dies startet einen Container, der einen einzigen Abruf durchführt und sich anschließend beendet.
+
+### Webhook Mode
+```
+./start-dkb.sh webhook
+```
+Dies startet den Container, welcher nun auf Port 8080 auf eingehende Web-Hooks wartet. Einfach mit dem Webbrowser auf http://localhost:8080/hooks/process gehen um den Prozess zu starten. Eignet sich auch gut als Link in Firefly-III, Bookmark oder zum Betrieb des Containers in k8s.
+
+Interaktiv kann die /usr/local/bin/process.sh auch im Container gestartet werden. Dies entspricht dem obigen legacy Mode.
+
+Für beide Modi gilt:
 
 Alle folgenden Abrufe werden nur noch die seit dem letzten Abruf aufgelaufenen Buchungen abrufen.
 Sämtliche Status-Dateien liegen in $HOME/.aqbanking/ und können - bei Bedarf - editiert werden.
@@ -68,7 +80,7 @@ Wenn die (optionale) AUTOIMPORT_URL definiert ist, dann wird das CSV automatisch
 
 # Dateien
 
-**start-dkb.sh**
+**start-dkb.sh [legacy|webhook]**
 
 erzeugt mittels aqbanking (gencsv.sh) ein CSV und konvertiert es passend für den CSV-Importer (csv-convert.py) und erstellt Dateien mit dem aktuellen Kontostand (balances.py)
 
@@ -79,19 +91,19 @@ Die Umsätze.xlsx kann einfach aus der WebGUI der Barclay heruntergeladen werden
 
 # Helper (werden durch obige Dateien automatisch verwendet)
 
-**csv-convert.py**
+**docker/scripts/csv-convert.py**
 
 konvertiert eingehende CSV-Dateien (z.B. aus aqbanking oder dem Webinterface der DKB) in ein Format, welches erfahrungsgemäß die wenigsten Probleme beim Import in den CSV-Importer macht.
 
-**Dockerfile**
+**docker/Dockerfile**
 
 erzeugt ein Container-Image welches aqbanking enthält
 
-**gencsv.sh**
+**docker/scripts/gencsv.sh**
 
 erzeugt eine CSV mittels aqbanking
 
-**balances.py**
+**docker/scripts/balances.py**
 
 wird automatisch durch start-dkb.sh aufgerufen. Es erzeugt eine Datei in $HOME/.aqbanking/balance/ für jedes Konto mit dem gebuchten Kontostand des Abrufes. Erleichtert den "Abgleich" in Firefly-III, denn leider liefert das "neue" Webinterface der DKB ja keinen Kontostand für vergangene Tage mehr.
 

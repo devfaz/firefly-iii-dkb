@@ -1,0 +1,5 @@
+- id: process
+  execute-command: "/usr/local/bin/process.sh"
+  command-working-directory: "/"
+  include-command-output-in-response: true
+  include-command-output-in-response-on-error: true

@@ -1,8 +1,8 @@
 FROM debian:13@sha256:34cd9e9fd437c0a095ec39cb2e73422c9f30821b0d0848ed74fd0d43bae4d958
-LABEL org.opencontainers.image.source = "https://github.com/devfaz/firefly-iii-dkb"
+LABEL org.opencontainers.image.source="https://github.com/devfaz/firefly-iii-dkb"
 
 RUN apt-get -qy update && \
-  apt-get -qy install git-core build-essential  libtool libgcrypt-dev gnutls-dev pkg-config libxmlsec1-dev libz-dev wget gettext python3-pip curl ca-certificates && \
+  apt-get -qy install git-core build-essential  libtool libgcrypt-dev gnutls-dev pkg-config libxmlsec1-dev libz-dev wget gettext python3-pip curl ca-certificates webhook && \
   apt-get clean
 
 RUN echo && \
@@ -26,16 +26,19 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt --break-system-packages && \
   rm /requirements.txt
 
-COPY gencsv.sh csv-convert.py /usr/local/bin/
-COPY start-dkb.sh /usr/local/bin
-COPY autoimport.sh /usr/local/bin
-COPY entrypoint.sh /usr/local/bin
-COPY balances.py /usr/local/bin
-
+COPY bin/gencsv.sh \
+    bin/csv-convert.py \
+    bin/autoimport.sh \
+    bin/entrypoint.sh \
+    bin/balances.py \
+    bin/process.sh \
+    /usr/local/bin/
+COPY webhook/hooks.yaml /etc/webhook/hooks.yaml
 COPY dkb-csv-export-profile.conf /opt/
 
 RUN useradd --uid 1000 --create-home aqbanking && \
   chmod +x /usr/local/bin/ -R
 
 USER 1000
-ENTRYPOINT /usr/local/bin/entrypoint.sh
+EXPOSE 9000
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

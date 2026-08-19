@@ -21,7 +21,7 @@ if [ ! -f "${WORKPATH}/pinfile" ]; then
 fi
 
 echo "From $FROMDATE to $TODATE"
-aqhbci-tool4 -P ${WORKPATH}/pinfile getaccounts -u 1
+echo 1 | aqhbci-tool4 -P ${WORKPATH}/pinfile getaccounts -u 1
 
 cd $WORKPATH
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e -o pipefail -u
-# podman run --rm --pull=newer -it -v $HOME/.aqbanking/:/root/.aqbanking/ ghcr.io/devfaz/firefly-iii-dkb:latest /usr/local/bin/gencsv.sh
 
 echo "Starting.."
 if [ ! -r $HOME/.aqbanking/env ]; then
