@@ -12,4 +12,8 @@ else
 	CMD="docker run --pull always --rm -it -u $(id -u):$(id -g) -p8080:9000"
 fi
 
-$CMD -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ "${IMAGE}" "${MODE}"
+if [ "$MODE" = "webhook" ]; then
+	docker compose up --pull=always -d
+else
+	$CMD -v $HOME/.aqbanking/:/home/aqbanking/.aqbanking/ "${IMAGE}" "${MODE}"
+fi

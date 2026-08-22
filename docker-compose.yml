@@ -1,0 +1,12 @@
+services:
+  firefly-iii-webhook:
+    image: ghcr.io/devfaz/firefly-iii-dkb:latest
+    container_name: firefly-iii-webhook
+    command: webhook
+    pull_policy: always
+    user: "1000:1000"
+    ports:
+      - "8080:9000"
+    restart: always
+    volumes:
+      - ${HOME}/.aqbanking/:/home/aqbanking/.aqbanking/
