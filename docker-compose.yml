@@ -1,6 +1,6 @@
 services:
   firefly-iii-webhook:
-    image: ghcr.io/devfaz/firefly-iii-dkb:latest
+    image: ghcr.io/devfaz/firefly-iii-dkb:latest@sha256:036b53ac91559e5a41e16a3ca4c62e4d31489b88d3383e69405ce4a69812f0a5
     container_name: firefly-iii-webhook
     command: webhook
     pull_policy: always
