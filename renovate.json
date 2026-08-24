@@ -1,4 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>rfc2324/renovate-config"]
+  "extends": ["local>rfc2324/renovate-config"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["ghcr.io/devfaz/firefly-iii-dkb"],
+      "enabled": false
+    }
+  ]
 }
