@@ -1,0 +1,111 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: firefly-iii-dkb
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ""
+  claimRef:
+    name: firefly-iii-dkb-pvc
+    namespace: firefly-iii
+  local:
+    path: /mnt/data/firefly-iii-dkb
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - srv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: firefly-iii-dkb-pvc
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: firefly-iii-dkb
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firefly-iii-dkb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: firefly-iii-dkb
+  template:
+    metadata:
+      labels:
+        app: firefly-iii-dkb
+    spec:
+      containers:
+      - name: webhook
+        command: 
+        - /usr/local/bin/entrypoint.sh
+        - webhook
+        image: "ghcr.io/devfaz/firefly-iii-dkb:latest"
+        volumeMounts:
+        - mountPath: "/home/aqbanking/.aqbanking"
+          name: aqbanking-data
+        ports:
+        - containerPort: 9000
+          name: http
+      volumes:
+        - name: aqbanking-data
+          persistentVolumeClaim:
+            claimName: firefly-iii-dkb-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: firefly-iii-dkb-service
+spec:
+  selector:
+    app: firefly-iii-dkb
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: firefly-iii-dkb-ingress
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - host.your-domain.tld
+  rules:
+  - host: "host.your-domain.tld"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: firefly-iii-dkb-service
+            port:
+              number: 9000
+

@@ -78,6 +78,10 @@ Sämtliche Status-Dateien liegen in $HOME/.aqbanking/ und können - bei Bedarf -
 
 Wenn die (optionale) AUTOIMPORT_URL definiert ist, dann wird das CSV automatisch per [HTTP-PUSH](https://docs.firefly-iii.org/how-to/data-importer/advanced/post/) importiert.
 
+#### Kubernetes
+
+Der webhook Mode eignet sich auch zum Deployment in kubernetes. Siehe kubernetes.example.yaml.
+
 # Dateien
 
 **start-dkb.sh [legacy|webhook]**
