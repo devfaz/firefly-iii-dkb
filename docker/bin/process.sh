@@ -31,14 +31,12 @@ if [ -n "${AUTOIMPORT_URL:-}" ]; then
 					echo "${FILE} not defined or unreadable"
 					exit 1
 				fi
-				if [ $(wc -l <"${KTO}.csv") -gt "1" ]; then
-					echo "Starting auto-import of ${KTO}"
-					echo "---"
-					if ! autoimport.sh ${KTO}; then
-						echo "auto-import - FAILED!"
-						mv -v "${KTO}.csv" "archive/${KTO}.failed.$(date +%s).csv"
-						exit 1
-					fi
+				echo "Starting auto-import of ${KTO}"
+				echo "---"
+				if ! autoimport.sh ${KTO}; then
+					echo "auto-import - FAILED!"
+					mv -v "${KTO}.csv" "archive/${KTO}.failed.$(date +%s).csv"
+					exit 1
 				fi
 				mv -v "${KTO}.csv" "archive/$(date +%F)_$(basename $FILE)_${KTO}.csv"
 				echo

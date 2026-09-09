@@ -36,6 +36,7 @@ fi
 cd $WORKPATH
 
 for KTO in $KTOS; do
+	echo "Getting transactions for $KTO"
 	aqbanking-cli --acceptvalidcerts -n -P ${WORKPATH}/pinfile request --account=${KTO} --fromdate=${FROMDATE} --todate=${TODATE} --transactions --balance >/dev/shm/${KTO}.ctx
 	aqbanking-cli export --exporter=csv --profile-file=/opt/dkb-csv-export-profile.conf -tt statement </dev/shm/${KTO}.ctx >/dev/shm/${KTO}-${FROMDATE}-${TODATE}.csv
 	balances.py /dev/shm/${KTO}.ctx | tee $WORKPATH/balance/${KTO}
@@ -45,10 +46,13 @@ done
 # convert csv
 for FILE in $(find /dev/shm/ -type f -name '*.csv'); do
 	FILENAME=$(basename $FILE)
-	csv-convert.py --input $FILE --output $WORKPATH/$FILENAME $CSV_CONVERT_ARGS
+	if [ $(cat "$FILE" | wc -l) -le "1" ]; then
+		echo "Removing empty $FILE"
+	else
+		csv-convert.py --input $FILE --output $WORKPATH/$FILENAME $CSV_CONVERT_ARGS
+		echo ${TODATE} >${WORKPATH}/TODATE
+	fi
 	rm -v $FILE
 done
-
-echo ${TODATE} >${WORKPATH}/TODATE
 
 echo "DONE"
