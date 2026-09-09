@@ -14,6 +14,16 @@ mkdir -pv csv
 mkdir -pv archive
 mkdir -pv balance
 
+autoimport() {
+	local KTO=$1
+	local FILE=$2
+	set -x
+	curl --fail-with-body --location --request POST "${AUTOIMPORT_URL}" \
+		--header 'Accept: application/json' \
+		--form 'importable=@"'${FILE}'"' \
+		--form 'json=@"./import_config_'${KTO}'.json"'
+}
+
 echo "Generating CSV.."
 #
 # generate new csv
@@ -24,21 +34,21 @@ if [ -n "${AUTOIMPORT_URL:-}" ]; then
 	echo "Starting AUTOIMPORT.."
 	for KTO in ${KTOS}; do
 		if [ -e "import_config_${KTO}.json" ]; then
-			find . -maxdepth 1 -name "${KTO}*.csv" | while read FILE; do
-				if [ -n "${FILE}" ] && [ -e "${FILE}" ]; then
-					mv -v "${FILE}" "${KTO}.csv"
+			find . -maxdepth 1 -type f -name "${KTO}*.csv" | while read FILE; do
+				if [ -n "${FILE}" ] && [ -r "${FILE}" ]; then
+					echo "${FILE} is readable"
 				else
 					echo "${FILE} not defined or unreadable"
 					exit 1
 				fi
 				echo "Starting auto-import of ${KTO}"
 				echo "---"
-				if ! autoimport.sh ${KTO}; then
+				if ! autoimport ${KTO} ${FILE}; then
 					echo "auto-import - FAILED!"
-					mv -v "${KTO}.csv" "archive/${KTO}.failed.$(date +%s).csv"
+					mv -v "${FILE}" "archive/${FILE}.failed.$(date +%s).csv"
 					exit 1
 				fi
-				mv -v "${KTO}.csv" "archive/$(date +%F)_$(basename $FILE)_${KTO}.csv"
+				mv -v "${FILE}" "archive/$(date +%F)_$(basename $FILE)_${KTO}.csv"
 				echo
 			done
 		fi

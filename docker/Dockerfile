@@ -28,7 +28,6 @@ RUN pip install -r /requirements.txt --break-system-packages && \
 
 COPY bin/gencsv.sh \
     bin/csv-convert.py \
-    bin/autoimport.sh \
     bin/entrypoint.sh \
     bin/balances.py \
     bin/process.sh \
