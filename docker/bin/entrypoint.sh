@@ -9,7 +9,7 @@ if [ "$1" = "webhook" ]; then
 	echo
 	echo http://localhost:8080/hooks/process
 	echo
-	webhook -hooks /etc/webhook/hooks.yaml
+	exec python3 /usr/local/bin/webhook_server.py
 else
 	source /usr/local/bin/process.sh
 fi

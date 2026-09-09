@@ -3,6 +3,8 @@ set -e -u -o pipefail
 
 WORKPATH="$HOME/.aqbanking"
 source "$WORKPATH/env"
+LOGPATH="$WORKPATH/log"
+mkdir -pv "$LOGPATH"
 
 if [ -s ${WORKPATH}/TODATE ]; then
 	FROMDATE=$(date +%Y%m%d -d "$(<${WORKPATH}/TODATE) + 1 day ")
@@ -21,7 +23,15 @@ if [ ! -f "${WORKPATH}/pinfile" ]; then
 fi
 
 echo "From $FROMDATE to $TODATE"
-echo 1 | aqhbci-tool4 -P ${WORKPATH}/pinfile getaccounts -u 1
+GETACCOUNTS_LOG="$LOGPATH/getaccounts.log"
+set +e
+echo 1 | aqhbci-tool4 -P ${WORKPATH}/pinfile getaccounts -u 1 2>&1 | tee "$GETACCOUNTS_LOG"
+GETACCOUNTS_STATUS=${PIPESTATUS[1]}
+set -e
+if [ "$GETACCOUNTS_STATUS" -ne 0 ] || grep -qiE 'error|fehler' "$GETACCOUNTS_LOG"; then
+	echo "ABORT: aqhbci-tool4 getaccounts failed (exit=$GETACCOUNTS_STATUS), see $GETACCOUNTS_LOG" >&2
+	exit 1
+fi
 
 cd $WORKPATH
 

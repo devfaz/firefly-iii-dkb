@@ -3,3 +3,4 @@
 *.json
 archive/
 .ruff_cache
+.devcontainer

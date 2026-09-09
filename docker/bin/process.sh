@@ -19,7 +19,6 @@ echo "Generating CSV.."
 # generate new csv
 gencsv.sh
 
-set -x
 # push csv to firefly-iii
 if [ -n "${AUTOIMPORT_URL:-}" ]; then
 	echo "Starting AUTOIMPORT.."
