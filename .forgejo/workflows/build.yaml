@@ -10,15 +10,13 @@ jobs:
   build:
     runs-on: docker
     container:
-      image: node:25-trixie@sha256:b6cf8d20ee78aa10f0a6b98242e26d547869801abd6bc3f7094b0a54301dee02
+      image: git.rfc2324.de/rfc2324/base-image:latest
     steps:
       - uses: https://data.forgejo.org/actions/checkout@v7
       - name: Prepare
         run: |-
           export DEBIAN_FRONTEND=noninteractive
           set -e -o pipefail -u
-          apt -qqy update
-          apt -qqy install docker.io
           echo ${{ secrets.MY_GITHUB_TOKEN }} | docker login --username devfaz --password-stdin $REGISTRY
           docker build -q -t ${IMAGE}:latest docker/
       - name: Setup Node.js
