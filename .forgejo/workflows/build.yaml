@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: docker
     container:
-      image: git.rfc2324.de/rfc2324/base-image:latest
+      image: git.rfc2324.de/rfc2324/base-image:latest@sha256:165368b48b26605db487219cdac32e28cbff7690bc0ef5ceb61a876189aed3e0
     steps:
       - uses: https://data.forgejo.org/actions/checkout@v7
       - name: Prepare
