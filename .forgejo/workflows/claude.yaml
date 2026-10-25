@@ -1,0 +1,25 @@
+name: claude-agent
+
+on:
+  issues:
+    types: [assigned, opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  resolve-issue:
+    if: |
+      (github.event_name == 'issues' && github.event.action == 'assigned' && github.event.assignee.login == 'claude') ||
+      (github.event_name == 'issues' && github.event.action == 'opened' && github.event.issue.assignee.login == 'claude') ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude'))
+    runs-on: docker
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+        with:
+          # use the same token Claude posts comments with, so its own comments are visible too
+          token: ${{ vars.CLAUDE_FORGEJO_TOKEN }}
+
+      - uses: https://git.rfc2324.de/public/claude-code-action@main
+        with:
+          oauth-token: ${{ vars.CLAUDE_CODE_OAUTH_TOKEN }}
+          forgejo-token: ${{ vars.CLAUDE_FORGEJO_TOKEN }}
