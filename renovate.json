@@ -1,10 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>rfc2324/renovate-config"],
+  "extends": [
+    "local>rfc2324/renovate-config"
+  ],
   "packageRules": [
     {
-      "matchPackageNames": ["ghcr.io/devfaz/firefly-iii-dkb"],
+      "matchPackageNames": [
+        "ghcr.io/devfaz/firefly-iii-dkb"
+      ],
       "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\nARG \\w+_VERSION=(?<currentValue>\\S+)"
+      ]
     }
   ]
 }
