@@ -8,7 +8,7 @@ RUN apt-get -qy update && \
 # renovate: datasource=github-tags depName=aqbanking/gwenhywfar
 ARG GWENHYWFAR_VERSION=5.14.1
 # renovate: datasource=github-tags depName=aqbanking/aqbanking
-ARG AQBANKING_VERSION=6.8.4
+ARG AQBANKING_VERSION=6.9.2
 
 RUN echo && \
   wget "https://github.com/aqbanking/gwenhywfar/archive/refs/tags/${GWENHYWFAR_VERSION}.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
