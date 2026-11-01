@@ -5,9 +5,14 @@ RUN apt-get -qy update && \
   apt-get -qy install git-core build-essential  libtool libgcrypt-dev gnutls-dev pkg-config libxmlsec1-dev libz-dev wget gettext python3-pip curl ca-certificates && \
   apt-get clean
 
+# renovate: datasource=github-tags depName=aqbanking/gwenhywfar
+ARG GWENHYWFAR_VERSION=5.14.1
+# renovate: datasource=github-tags depName=aqbanking/aqbanking
+ARG AQBANKING_VERSION=6.8.4
+
 RUN echo && \
-  wget "https://aquamaniac.de/rdm/attachments/download/630/gwenhywfar-5.14.1.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
-  wget "https://aquamaniac.de/rdm/attachments/download/646/aqbanking-6.8.4.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
+  wget "https://github.com/aqbanking/gwenhywfar/archive/refs/tags/${GWENHYWFAR_VERSION}.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
+  wget "https://github.com/aqbanking/aqbanking/archive/refs/tags/${AQBANKING_VERSION}.tar.gz" -O- | tar -xzvf- -C /usr/src/ && \
   cd /usr/src/gwenhywfar* && \
   make -fMakefile.cvs && \
   ./configure --prefix=/ --exec-prefix=/usr --with-guis="" && \
