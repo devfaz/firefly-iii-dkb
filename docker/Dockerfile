@@ -6,7 +6,7 @@ RUN apt-get -qy update && \
   apt-get clean
 
 # renovate: datasource=github-tags depName=aqbanking/gwenhywfar
-ARG GWENHYWFAR_VERSION=5.14.2
+ARG GWENHYWFAR_VERSION=5.14.3
 # renovate: datasource=github-tags depName=aqbanking/aqbanking
 ARG AQBANKING_VERSION=6.9.2
 
